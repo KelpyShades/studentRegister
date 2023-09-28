@@ -10,10 +10,11 @@ class Students {
 
   void addStudent() {
     while(true){
+      try {
       stdout.write('\nDo you want to add a new student details? (y/n): ');
       String decision = stdin.readLineSync()!.toLowerCase();
       if (decision == 'y') {
-        stdout.write('Enter Student Firstname: ');
+        stdout.write('\nEnter Student Firstname: ');
         String getFirstName = stdin.readLineSync()!;
         stdout.write('Enter Student Lastname: ');
         String getLastName = stdin.readLineSync()!;
@@ -30,7 +31,7 @@ class Students {
         studentCourse.add(getCourse);
         studentId.add(studentCount);
         
-        print('New Student Succesfully Added!\n');
+        print('New Student With Id: $studentCount Succesfully Added!');
         continue;
       } else if (decision == 'n') {
         break;
@@ -38,57 +39,88 @@ class Students {
         print('Invalid Input! please try again...');
         continue;
       }
+      } catch (e) {
+        print('Error: $e');
+        continue;
+      }finally{
+        print('Enter A Valid Input!');
+      }
     }
   }
   void removeStudent() {
     if (studentCount != 0) {
       while (true) {
-        stdout.write('\nEnter Student Id: ');
-        int toBeRemovedId = int.parse(stdin.readLineSync()!);
+        try {
+          stdout.write('\nEnter Student Id: ');
+          int toBeRemovedId = int.parse(stdin.readLineSync()!);
 
-        if (toBeRemovedId > studentCount) {
-          print('Id Not Found! Please enter a diferent id...\n');
+          if (toBeRemovedId > 0 && toBeRemovedId <= studentCount) {
+            studentFirstName.remove(studentFirstName[toBeRemovedId - 1]);
+            studentLastName.remove(studentLastName[toBeRemovedId - 1]);
+            studentAge.remove(studentAge[toBeRemovedId - 1]);
+            studentCourse.remove(studentCourse[toBeRemovedId - 1]);
+            studentId.remove(studentId[studentCount-toBeRemovedId]);
+            print('\nStudent Succesfully Removed\n');
+
+            studentCount--;
+            break;
+          }else{
+            print('Id Not Found! Please enter a diferent id...\n');
+            continue;
+          }
+        } catch (e) {
+          print('Error: $e');
           continue;
+        }finally{
+          print('Enter A Valid Input!');
         }
-
-        studentFirstName.remove(studentFirstName[toBeRemovedId - 1]);
-        studentLastName.remove(studentLastName[toBeRemovedId - 1]);
-        studentAge.remove(studentAge[toBeRemovedId - 1]);
-        studentCourse.remove(studentCourse[toBeRemovedId - 1]);
-        studentId.remove(studentId[studentCount-toBeRemovedId]);
-        print('\nStudent Succesfully Removed\n');
-
-        studentCount--;
-        break;
       }
+      return;
     } else if (studentCount == 0) {
-      print('\nYou have no student, please try adding a student first.');
+      print('\nYou have no students, please try adding a student first.');
+      return;
     }
   }
 
   void showAllStudents() {
     int adjustCount = studentCount - 1;
-    print('\nStudent List ( ID - Name - Age - Course )\n');
-    for (int i = 0; i <= adjustCount; i++) {
-      print('${studentId[i]} - ${studentFirstName[i]} ${studentLastName[i]} - ${studentAge[i]} - ${studentCourse[i]}\n');
+    if (studentCount != 0) {
+      print('\nStudent List ( ID - Name - Age - Course )\n');
+      for (int i = 0; i <= adjustCount; i++) {
+        print('${studentId[i]} - ${studentFirstName[i]} ${studentLastName[i]} - ${studentAge[i]} - ${studentCourse[i]}\n');
+      }
+      return;
+    } else if (studentCount == 0) {
+      print('\nYou have no students, please try adding a student first.');
+      return;
     }
   }
 
   void showStudent() {
-        if (studentCount != 0) {
+      if (studentCount != 0) {
       while (true) {
-        stdout.write('\nEnter Student Id: \n');
+        try {
+        stdout.write('\nEnter Student Id: ');
         int specificId = int.parse(stdin.readLineSync()!);
-
-        if (specificId > studentCount) {
+        int removeId = specificId-1;
+        if (specificId > 0 && specificId <= studentCount) {
+          print('${studentId[removeId]} - ${studentFirstName[removeId]} ${studentLastName[removeId]} - ${studentAge[removeId]} - ${studentCourse[removeId]}\n');
+          break;
+        }else {
           print('Id Not Found! Please enter a diferent id...\n');
           continue;
         }
-         print('${studentId[specificId]} - ${studentFirstName[specificId]} ${studentLastName[specificId]} - ${studentAge[specificId]} - ${studentCourse[specificId]}\n');
-        break;
+        } catch (e) {
+        print('Error: $e');
+          continue;
+        }finally{
+          print('Enter A Valid Input!');
+        }
       }
+      return;
     } else if (studentCount == 0) {
-      print('\nYou have no student, please try adding a student first.');
+      print('\nYou have no students, please try adding a student first.');
+      return;
     }
   }
   void numOfStudents() {

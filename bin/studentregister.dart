@@ -12,9 +12,10 @@ void main() {
       \n''';
   Students obj = Students();
 
-  print('Welcome To My Register Console App\n');
+  print('\nWelcome To My Register Console App');
   while (true) {
     print(actions);
+  try {
     stdout.write('Choose An Action: ');
     int option = int.parse(stdin.readLineSync()!);
     switch (option) {
@@ -39,5 +40,12 @@ void main() {
         print('Invalid Input, Try Once More...\n');
         continue;
     }
+  } catch (e) {
+  print('Error: $e');
+    continue;
+  }finally{
+    print('Enter A Valid Input!');
+  }  
+  
   }
 }
